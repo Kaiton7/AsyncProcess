@@ -9,13 +9,10 @@ from celery.result import AsyncResult
 import logging
 from tasks.sample_tasks import NewOne,Demo, create_task
 from tasks.models import TaskList, Record
-from celery.task.control import inspect 
 import yaml
 from django.shortcuts import render
 import random
-from django.views import generic
 from django_datatables_view.base_datatable_view import BaseDatatableView
-#from datatables_view.views import DatatablesView
 
 from .models import Record
 import os 
@@ -79,8 +76,6 @@ def file_task(request):
             pass
         ra = Record.objects.all()[:2]
         # taskを実行する
-        #data = serialize("json", ra)
-        taskbool = Demo.delay(id_record)
         logger.info(a)
 
     return JsonResponse({"ok":"ok"}, status=202)
@@ -107,9 +102,6 @@ def dbget(request):
     b = TaskList(name="test", taskid=x)
     b.save()
     ra = TaskList.objects.all()[:50]
-    #first_50_clubs=1
-    #eturn JsonResponse({"directory.html":first_50_clubs})
-    print(ra)
     return render(request, "home.html",{"tasklist":ra})
 
 @csrf_exempt
@@ -117,26 +109,18 @@ def recordwrite(request):
     print("Add record function called")
     ra = Record.objects.all()[:2]
     data = serialize("json", ra)
-    print("serialized data before", data)
-    print()
     name = "sampleprocess"
     status = "PENDING"
     qqq= "Cancer"
     b = Record(name=name, status = status,QT=qqq)
     b.save()
     ra = Record.objects.all()[:50]
-    print("add record finished")
-    print("record in db", ra)
     data = serialize("json", ra)
-    print("serialized data", data)
-    print()
-    print()
+    
     return JsonResponse(data, status=200,safe=False)
 from wsgiref.util import FileWrapper
 
 from django.http import HttpResponse
-chunksize = 8 * (1024 ** 2)
-import csv
 
 # 終了したタスクの出力csvをダウンロードする
 @csrf_exempt
@@ -149,29 +133,3 @@ def download_csv(request):
     response['Content-Disposition'] = 'attachment; filename="9.csv"'
 
     return response
-
-#
-#
-#@csrf_exempt
-#def pack_task(request):
-#    #print("",a)
-#    #tasks = current_app.tasks.keys()
-#    #i = app.control.inspect()
-#
-#    #print(i.active())
-#
-#    #tasks = app.control.inspect().registered()
-#
-#    #print("tasks",tasks)
-#    #logger.debug('Log whatever you want')
-#    #logger.debug(tasks)
-#    tasks = inspect().registered_tasks()
-#    i=inspect()
-#    #print(dir(i))
-#    #print("schedule",i.scheduled())
-#    #print("+++++++++++++++++++")
-#    #print("istat",i.stats())
-#    #print("++++++++++++")
-#    #print("querytask",i.query_task)
-#    #print(inspect()())
-#    return JsonResponse(tasks, status=200)

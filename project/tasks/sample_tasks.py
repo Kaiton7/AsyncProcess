@@ -35,22 +35,3 @@ def Demo(id_record):
     s.save()
     print("task finished")
     return True
-
-@shared_task
-def NewOne():
-    url = "https://en.wikipedia.org/wiki/List_of_cities_in_Japan"
-    html = urllib.request.urlopen(url)
-    soup = BeautifulSoup(html, 'html.parser')
-    table = soup.find_all("table")
-    for tab in table:
-        table_className = tab.get("class")
-        if table_className[0] == "wikitable":
-            with open("logs/test.csv", "w", encoding='utf-8') as file:
-                writer = csv.writer(file)
-                rows = tab.find_all("tr")
-                for row in rows:
-                    csvRow = []
-                    for cell in row.findAll(['td', 'th']):
-                        csvRow.append(cell.get_text())
-                    writer.writerow(csvRow)
-            break
