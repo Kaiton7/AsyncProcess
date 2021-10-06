@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Django + Celery + Docker</title>
+    <title>Async Django</title>
     <link rel="stylesheet" type="text/css" href="/staticfiles/bulma.min.css">
     <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
   </head>
@@ -13,36 +13,48 @@
     <section class="section">
       <div class="container">
         <div class="column is-two-thirds">
-          <h1 class="title">Django + Celery + Docker</h1>
+          <h1 class="title">非同期処理 デモ</h1>
           <hr><br>
           <div>
-            <h2 class="title is-2">Tasks</h2>
-            <h3>Choose a task length:</h3>
+            <h2 class="title is-2">Tasks Monitoring Dashboard</h2>
+            <h3 class="title is-3">Debug Button</h3>
+  
+            
             <div class="field is-grouped">
               <p class="control">
-                <button class="button is-primary" data-type="1">Short</button>
-                <button class="button is-primary" data-type="2">Medium</button>
-                <button class="button is-primary" data-type="3">Long</button>
-              </p>
+            <button class="button is-primary " id="DBGet">Get HTML</button>
+            <button class="button is-link " id="WriteRecord">Write Record</button>
+            <button class="button is-danger " id="ShowDebug">Show Record</button>
+          </p>
+        </div>
+        <br><br>
+        <h2 class="title is-2">Upload config file</h2>
+            <div class="input-group mb-3">
+              <div class="custom-file">
+                <input  type="file"  id="inputGroupFile01" name="configfile">
+                <label  for="inputGroupFile01"></label>
+                <button class="btn btn-dark" id="Run">Execute</button>
+              </div>
             </div>
           </div>
-          <br><br>
-          <div>
-            <h2 class="title is-2">Task Status</h2>
-            <br>
-            <table class="table is-fullwidth">
-              <thead>
-                <tr>
-                  <th>ID</th>
-                  <th>Status</th>
-                  <th>Result</th>
-                </tr>
-              </thead>
-              <tbody id="tasks">
-              </tbody>
-            </table>
-          </div>
         </div>
+      </div>
+      <div class="container">
+        <div>
+        <h2 class="title is-2">Record Table</h2>
+        <br>
+        <table id="example" class="table is-fullwidth" style="width:80%">
+          <thead>
+              <tr>
+                  <th>id</th>
+                  <th>name</th>
+                  <th>start_time</th>
+                  <th>status</th>
+                  <th>QT</th>
+              </tr>
+          </thead>
+      </table>
+    </div>
       </div>
     </section>
 
@@ -54,5 +66,12 @@
     </footer>
     <script type="text/javascript" src="{% static 'jquery-3.4.1.min.js' %}"></script>
     <script type="text/javascript" src="{% static 'main.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/select/1.2.7/css/select.dataTables.min.css" rel="stylesheet">
+ 
   </body>
 </html>
