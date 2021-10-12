@@ -5,11 +5,8 @@ import time
 from celery import shared_task
 
 import csv
-import urllib
-from bs4 import BeautifulSoup
 from tasks.models import  Record
 
-#import pandas as pd
 @shared_task
 def create_task(task_type):
     time.sleep(int(task_type) * 10)
@@ -17,7 +14,7 @@ def create_task(task_type):
 
 @shared_task
 def Demo(id_record):
-    print("demo kicked")
+    # update process status PROCESSING
     s = Record.objects.filter(id=id_record).first()
     s.status = "PROCESSING"
     s.save()
@@ -26,12 +23,12 @@ def Demo(id_record):
         writer.writerow([id_record])
         writer.writerow("demo!!")
     time.sleep(10)
-
+    # update process status SUCCESS
     s = Record.objects.filter(id=id_record).first()
     s.status = "SUCCESS"
     s.save()
+    # update Download botton
     s = Record.objects.filter(id=id_record).first()
     s.QT = "DOWNLOAD"
     s.save()
-    print("task finished")
     return True

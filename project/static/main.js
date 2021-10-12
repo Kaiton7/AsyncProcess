@@ -98,7 +98,7 @@ $('#ShowDebug').on('click', function () {
   
 // Kick Process
 $('#Run').on('click', function () {
-  console.log("ececution")
+  console.log("execution")
   let $upfile = $('input[name="configfile"]');
 let fd = new FormData();
 fd.append("upfile", $upfile.prop('files')[0]);
